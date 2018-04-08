@@ -21,8 +21,8 @@
 JDK1.8+
 
 4. 实现代码和效果
-5. 
-1.抽象工厂的数据库连接
+
+>1.抽象工厂的数据库连接
 ```java
 AbstractFactory af = new AbstaFactImpl();
 JdbcFactory jf = af.factoryA();
@@ -32,9 +32,9 @@ String sql =(String) sa.parseMethod(SqlMethod.class,"select1");
 ResultSet rs = jf.createQuery(sql, con);
 ```
 
-![Image text](http://www.dongyv.com/picture/2018.4.8/cs1.png)
+>![Image text](http://www.dongyv.com/picture/2018.4.8/cs1.png)
 
-2.观察者模式中用户注册的动作
+>2.观察者模式中用户注册的动作
 ```java
 rgsobv.addUser(register);
 List<Registers> regiter = rgsobv.lists;
@@ -44,4 +44,4 @@ System.out.println("当前运行第"+register1.getUser().getUser());
 rgsobv.noty(user);//通知具体用户方法
 ```
 
-![Image text](http://www.dongyv.com/picture/2018.4.8/cs2.png)
+>![Image text](http://www.dongyv.com/picture/2018.4.8/cs2.png)
