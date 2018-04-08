@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="dongyv.xch.dao.UserDao">
+ 	<insert id="insert" parameterType="dongyv.xch.model.Users">
+ 		insert into users (user,flag) values(#{user},#{flag})
+ 	</insert>
+ </mapper>
