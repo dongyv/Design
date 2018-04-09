@@ -13,19 +13,19 @@ import dongyv.xch.sqlAnnocation.MyAnno.Where;
 
 public class SelectAnnotation {
 	
-	public Object parseMethod(Class clazz,String name) {
+	public Object parseMethod(Class clazz,String name,Object... objects ) {
 		Object obj,invoke = null;
 		try {
 			obj = clazz.getConstructor(new Class[] {}).newInstance(new Object[] {});
 			if(name != null && !"".equals(name)) {
 				for (Method method : clazz.getDeclaredMethods()) {//获取方法
 					if(name.equals(method.getName())) {
-						invoke = doSomeThing(obj,method);
+						invoke = doSomeThing(obj,method,objects);
 					}
 				}
 			}else {
 				for (Method method : clazz.getDeclaredMethods()) {//获取方法
-					invoke = doSomeThing(obj,method);
+					invoke = doSomeThing(obj,method,objects);
 				}
 			}
 			
@@ -51,7 +51,9 @@ public class SelectAnnotation {
 		return invoke;
 	}
 	
-	private Object doSomeThing(Object target,Method method) {
+	private Object doSomeThing(Object target,Method method,Object...objects) {
+		System.out.println("---------------");
+		System.out.println("---------------"+objects[0]);
 			Object invoke = null;
 			Select select = method.getAnnotation(Select.class);//获取注解
 			Update update = method.getAnnotation(Update.class);//获取注解
@@ -63,16 +65,16 @@ public class SelectAnnotation {
 			String sql = "";
 			StringBuffer sb = null ;
 			if(select!=null){
-				sb = selectSQL(select,where,group,having);
+				sb = selectSQL(select,where,group,having,objects[0]);
 			}
 			if(update!=null){
-				sb = updateSQL(update,where,group,having);
+				sb = updateSQL(update,where,group,having,objects[0]);
 			}
 			if(delete!=null){
-				sb = deleteSQL(delete,where,group,having);
+				sb = deleteSQL(delete,where,group,having,objects[0]);
 			}
 			if(insert!=null){
-				sb = insertSQL(insert,where,group,having);
+				sb = insertSQL(insert,where,group,having,objects[0]);
 			}
 			sql = sb.toString();
 			try {
@@ -91,18 +93,18 @@ public class SelectAnnotation {
 		
 	}
 	
-	private StringBuffer selectSQL(Select select,Where where,Group group,Having having){
+	private StringBuffer selectSQL(Select select,Where where,Group group,Having having,Object objects){
 		StringBuffer sb = new StringBuffer();
 		sb.append("select ");
 		sb.append(select.param());
 		sb.append(" from ");
 		sb.append(select.table());
 		
-		StringBuffer sb1 = whereGroup(sb,where,group,having);
+		StringBuffer sb1 = whereGroup(sb,where,group,having,objects);
 		return sb1;
 	}
 	
-	private StringBuffer updateSQL(Update update,Where where,Group group,Having having){
+	private StringBuffer updateSQL(Update update,Where where,Group group,Having having,Object objects){
 		StringBuffer sb = new StringBuffer();
 		sb.append("update ");
 		sb.append(update.table());
@@ -115,11 +117,11 @@ public class SelectAnnotation {
 				sb.append(" and ");
 			}
 		}
-		StringBuffer sb1 = whereGroup(sb,where,group,having);
+		StringBuffer sb1 = whereGroup(sb,where,group,having,objects);
 		return sb1;
 	}
 	
-	private StringBuffer insertSQL(Insert insert,Where where,Group group,Having having){
+	private StringBuffer insertSQL(Insert insert,Where where,Group group,Having having,Object objects){
 		StringBuffer sb = new StringBuffer();
 		sb.append("insert into (");
 		for(int i=0;i<insert.keys().length;i++){
@@ -140,21 +142,23 @@ public class SelectAnnotation {
 		return sb;
 	}
 	
-	private StringBuffer deleteSQL(Delete delete,Where where,Group group,Having having){
+	private StringBuffer deleteSQL(Delete delete,Where where,Group group,Having having,Object objects){
 		StringBuffer sb = new StringBuffer();
 		sb.append("delete ");
 		sb.append(delete.table());
-		StringBuffer sb1 = whereGroup(sb,where,group,having);
+		StringBuffer sb1 = whereGroup(sb,where,group,having,objects);
 		return sb1;
 	}
 	
-	private StringBuffer whereGroup(StringBuffer sb,Where where,Group group,Having having){
+	private StringBuffer whereGroup(StringBuffer sb,Where where,Group group,Having having,Object objects){
 		if(where != null){
 			sb.append(" where ");
 			for(int i=0;i<where.keys().length;i++){
 				sb.append(where.keys()[i]);
 				sb.append(" = ");
-				sb.append(where.values()[i]);
+				String value = where.values()[i];
+				String value1 = value.replaceAll("\\#\\{name\\}",(String)objects );
+				sb.append(value1);
 				if(i!=where.keys().length-1){
 					sb.append(" and ");
 				}

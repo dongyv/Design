@@ -2,10 +2,13 @@
 
 更新记录：
 
-2018-04-6：
+2018-04-08：
 初步研发，实现俩个基本功能
 
-=============================================================================================
+2018-04-09：
+整合nio功能，实现客户端和服务器通信
+
+=================================================================
 
 1. 项目背景：
 
@@ -39,9 +42,24 @@ ResultSet rs = jf.createQuery(sql, con);
 rgsobv.addUser(register);
 List<Registers> regiter = rgsobv.lists;
 for(Registers register1:regiter) {
-System.out.println("当前运行第"+register1.getUser().getUser());
+	System.out.println("当前运行第"+register1.getUser().getUser());
 }
-rgsobv.noty(user);//通知具体用户方法
+rgsobv.noty(user);
 ```
 
 >![Image text](http://www.dongyv.com/picture/2018.4.8/cs2.png)
+
+>3.sql语句写法,添加了通配符
+```java
+@Select(table="goods")
+@Where(keys = { "id" }, values = { "#{name}" })
+public String selectGoods(String sql) {
+    return sql;
+}
+//反射语句
+String sql =(String) sa.parseMethod(SqlMethod.class,"selectGoods",String.valueOf(id);//id做了随机数处理，0-4整数
+```
+
+>4.nio客户端和服务器实现
+>![Image text](http://www.dongyv.com/picture/2018.4.9/cs1.png)
+>![Image text](http://www.dongyv.com/picture/2018.4.9/cs2.png)

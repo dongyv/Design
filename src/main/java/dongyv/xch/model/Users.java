@@ -1,9 +1,18 @@
 package dongyv.xch.model;
 
+import java.math.BigDecimal;
+
 public class Users {
 	private int id;
 	private String user;
 	private int flag;
+	private BigDecimal price;
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 	public int getFlag() {
 		return flag;
 	}

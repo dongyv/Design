@@ -28,6 +28,13 @@ public class SqlMethod {
 		return sql;
 	}
 	
+	@Select(table="goods")
+	@Where(keys = { "id" }, values = { "#{name}" })
+	public String selectGoods(String sql) {
+		
+		return sql;
+	}
+	
 	@Update(table="user",keys={"name"},values={"3"})
 	@Where(keys={"text"},values={"2"})
 	public void update(String sql){

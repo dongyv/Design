@@ -12,4 +12,9 @@ public class Pub {
 	public static final int JDBC_POOL_INIT_SIZE = 5;
 	// MySQL 连接池最大线程
 	public static final int JDBC_POOL_MAX_SIZE = 10;
+	//nio的默认IP
+	public static String DEFAULT_HOST = "127.0.0.1";
+	//nio的默认端口号 
+	public static int DEFAULT_PORT = 12345;
+	
 }

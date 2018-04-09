@@ -2,6 +2,7 @@ package dongyv.xch.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dongyv.xch.client.Client;
 import dongyv.xch.model.DongRegister;
 //import dongyv.xch.model.DongRegister;
 import dongyv.xch.model.Users;
@@ -19,6 +21,7 @@ import dongyv.xch.observer.MainObsver;
 import dongyv.xch.observer.RegisterObsver;
 import dongyv.xch.observer.Registers;
 import dongyv.xch.service.UserService;
+import dongyv.xch.util.NumberUtil;
 
 @Controller
 @RequestMapping(value="/user")
@@ -43,8 +46,18 @@ public class UserController{
 		register.setUser(users);
 		i++;
 		Users user1 = register.register();//含flag属性
+		
 		userService.insert(user1);
 		noty(user1,register);//通知方法
+		int id = NumberUtil.getNumber(4);
+		System.out.println(id);
+		try {
+			Client.sendMsg(String.valueOf(id));//模拟发送 订单id
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return "注册成功";
 	}
 	
